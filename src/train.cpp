@@ -1,49 +1,49 @@
 // Copyright 2021 NNTU-CS
 #include "train.h"
 
-Train::Train() : cOp(0), fir(nullptr) {}
-  void Train::addCage(bool ligh) {
-  Cage* ca = new Cage;
-  ca->ligh = ligh;
-  if (!fir) {
-  ca->next = ca;
-  ca->prev = ca;
-  fir = ca;
+  Train::Train() : countOp(0), first(nullptr) {}
+
+  void Train::addCage(bool light) {
+  Cage* cage = new Cage;
+  cage->light = light;
+  if (!first) {
+  cage->next = cage;
+  cage->prev = cage;
+  first = cage;
   return;
   }
-  Cage* ca = new Cage;
-  ca->ligh = ligh;
-  if (!fir) {
-  ca->next = ca;
-  ca->prev = ca;
-  fir = ca;
-  return;
+  cage->next = first->next;
+  cage->prev = first;
+  first->next->prev = cage;
+  first->next = cage;
   }
-  
+
+
   int Train::getLength() {
-  int trainLen = 0;
-  int len = 0;
-  cOp = 0;
-  Cage* ct = fir;
-  fir->ligh = true;
+  int trainLenght = 0;
+  int lenght = 0;
+  countOp = 0;
+  Cage* current = first;
+  first->light = true;
   while (true) {
-  len++;
-  cOp++;
-  ct = ct->next;
-  if (ct->light) {
-  ct->ligh = false;
-  trainLen = len;
-  for (trainLen; trainLen > 0; --trainLen) {
-  ct = ct->prev;
-  cOp++;
+  lenght++;
+  countOp++;
+  current = current->next;
+  if (current->light) {
+  current->light = false;
+  trainLenght = lenght;
+  for (trainLenght; trainLenght > 0; --trainLenght) {
+  current = current->prev;
+  countOp++;
   }
-  if (!(ct->ligh)) {
-  return len;
+  if (!(current->light)) {
+  return lenght;
   }
-  len = trainLen;
+  lenght = trainLenght;
   }
   }
   }
+
   int Train::getOpCount() {
-  return cOp;
+  return countOp;
   }
